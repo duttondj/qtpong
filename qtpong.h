@@ -2,43 +2,52 @@
 #define QTPONG_H
 
 #include <QObject>
+#include <QTime>
+#include <QKeyEvent>
+#include <QGraphicsScene>
+#include <QTimer>
+
+#include "ball.h"
+#include "paddle.h"
 
 class QtPong : public QGraphicsScene
 {
     Q_OBJECT
 public:
-    explicit QtPong(QObject *parent = 0);
+    QtPong(QObject *parent = 0);
+    //QtPong(qreal x, qreal y, qreal width, qreal height, QObject *parent = 0);
 
-signals:
-    void win(QtPong::Player w);
+
+// signals:
+//     void win(bool player);
 
 private slots:
     void moveBall();
 
-protected:
-    void keyPressEvent(QKeyEvent *event);
+// public slots:
+//     void resetBall();
+
+// protected:
+//     void keyPressEvent(QKeyEvent *event);
 
 private:
     Paddle *p1Paddle, *p2Paddle;
-    Ball *b;
+    Ball *ball;
 
-    QGraphicsRectItem *playArea;
+    QGraphicsRectItem *gameArea;
 
+    QTimer *timer;
 
-    QGraphicsSimpleTextItem *p1Score, *p2Score;
+    // QGraphicsSimpleTextItem *p1Score, *p2Score;
 
-    Scoreboard *p1Scoreboard, *p2Scoreboard;
+    // Scoreboard *p1Scoreboard, *p2Scoreboard;
 
-    qreal oob;
+    //void movePaddle(Paddle paddle, bool up);
 
-    void resetBall();
+    // void incScore(bool player);
 
-    void movePaddleUp(Paddle paddle, bool up);
-
-    void incScore();
-
-
-
+    static const int widthGame = 560;
+    static const int heightGame = 400;
 
 };
 

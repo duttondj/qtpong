@@ -2,16 +2,17 @@
 #define BALL_H
 
 #include <QGraphicsEllipseItem>
+#include <QPainter>
 
 class Ball : public QGraphicsEllipseItem
 {
 public:
     // Constructors for ball
     Ball(QGraphicsItem *parent = 0);
-    Ball(qreal x, qreal y, qreal width, qreal height QGraphicsItem *parent = 0);
+    Ball(qreal x, qreal y, qreal width, qreal height, QGraphicsItem *parent = 0);
 
     // Overloaded paint method, Color and shape settings for ball
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     
     // Setters for direction and speed
     void setDirection(int newX, int newY);
@@ -21,16 +22,16 @@ public:
     int getX();
     int getY();
     int getSpeed();
-    int getMaxSpeed();
+    int getMaxBallSpeed();
 
 private:
 	// Vector components, x, y, and speed
-    int x;
-	int y;
+    int xDir;
+	int yDir;
 	int v;
 
     // Max speed for ball, 4 pixels in x and y component per movement
-    static const MAXBALLSPEED = 4;
+    static const int MAXBALLSPEED = 4;
 
 protected:
 	// Overloaded advance movement for ball, sets next position when called

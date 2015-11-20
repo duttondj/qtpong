@@ -7,8 +7,8 @@ class Paddle : public QGraphicsRectItem
 {
 public:
 	// Constructors for Paddles
-	Paddle(QGraphicsRectItem *parent = 0);
-	Paddle(qreal x, qreal y, qreal w, qreal h, QGraphicsItem *parent = 0);
+	Paddle(QGraphicsItem *parent = 0);
+	Paddle(qreal x, qreal y, qreal width, qreal height, QGraphicsItem *parent = 0);
 
 	// Color and shape settings for paddles
 	void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -18,7 +18,7 @@ public:
 
 private:
 	// Max speed of paddle, pixels per movement
-	static const MAXPADDLESPEED = 4;
+	static const int MAXPADDLESPEED = 4;
 };
 
 #endif // PADDLE_H

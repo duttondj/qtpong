@@ -3,14 +3,10 @@
 #include <QPainter>
 
 Paddle::Paddle(QGraphicsItem *parent) : QGraphicsRectItem(parent)
-{
-	
-}
+{}
 
-Paddle::Paddle(qreal x, qreal y, qreal w, qreal h, QGraphicsItem *parent) : QGraphicsRectItem(parent)
-{
-	
-}
+Paddle::Paddle(qreal x, qreal y, qreal width, qreal height, QGraphicsItem *parent) : QGraphicsRectItem(x, y, width, height, parent)
+{}
 
 void Paddle::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
