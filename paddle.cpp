@@ -11,6 +11,7 @@ Paddle::Paddle(qreal x, qreal y, qreal width, qreal height, QGraphicsItem *paren
 void Paddle::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
 	// Draw a white rectangle
+	painter->setPen(Qt::white);
 	painter->setBrush(QBrush(Qt::white));
 	painter->drawRect(this->rect());
 }

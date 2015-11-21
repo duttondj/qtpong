@@ -44,7 +44,8 @@ Ball::Ball(qreal x, qreal y, qreal w, qreal h, QGraphicsItem *parent) : QGraphic
 void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
 	// Ball is a white circle
-	painter->setBrush(QBrush(Qt::white));
+	painter->setPen(Qt::white);
+	painter->setBrush(QBrush(Qt::blue));
 	painter->drawEllipse(this->rect());
 }
 

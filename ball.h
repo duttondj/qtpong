@@ -31,7 +31,7 @@ private:
 	int v;
 
     // Max speed for ball, 4 pixels in x and y component per movement
-    static const int MAXBALLSPEED = 4;
+    static const int MAXBALLSPEED = 1;
 
 protected:
 	// Overloaded advance movement for ball, sets next position when called

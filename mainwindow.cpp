@@ -8,6 +8,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     qtpong = new QtPong(this);
+
+    ui->canvas->setScene(qtpong);
+    ui->canvas->adjustSize();
 }
 
 MainWindow::~MainWindow()

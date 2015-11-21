@@ -15,22 +15,27 @@ class QtPong : public QGraphicsScene
     Q_OBJECT
 public:
     QtPong(QObject *parent = 0);
-    //QtPong(qreal x, qreal y, qreal width, qreal height, QObject *parent = 0);
-
-
-// signals:
-//     void win(bool player);
+    QtPong(qreal x, qreal y, qreal width, qreal height, QObject *parent = 0);
 
 private slots:
     void moveBall();
 
-// public slots:
+//public slots:
 //     void resetBall();
 
-// protected:
-//     void keyPressEvent(QKeyEvent *event);
+protected:
+    void keyPressEvent(QKeyEvent *event);
 
 private:
+    // Start a new game
+    void startNew();
+    
+    // Reset the ball, paddles, and timer
+    void setGame();
+    
+    // Call when a player wins
+    void win(bool player);
+
     Paddle *p1Paddle, *p2Paddle;
     Ball *ball;
 
@@ -38,11 +43,7 @@ private:
 
     QTimer *timer;
 
-    // QGraphicsSimpleTextItem *p1Score, *p2Score;
-
-    // Scoreboard *p1Scoreboard, *p2Scoreboard;
-
-    //void movePaddle(Paddle paddle, bool up);
+    void movePaddle(Paddle *paddle, bool up);
 
     // void incScore(bool player);
 
