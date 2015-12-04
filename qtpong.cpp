@@ -12,6 +12,8 @@ QtPong::QtPong(qreal x, qreal y, qreal width, qreal height, QObject *parent) : Q
 
 void QtPong::startNew()
 {
+	Engine engine;
+
 	// Seed the RNG with current millisec time
 	qsrand(QTime::currentTime().msec());
 
@@ -34,7 +36,9 @@ void QtPong::startNew()
 
 	// Connect the timer to the advance and moveBall functions
 	QObject::connect(timer, SIGNAL(timeout()), this, SLOT(advance()));
-	QObject::connect(timer, SIGNAL(timeout()), this, SLOT(moveBall()));
+	QObject::connect(timer, SIGNAL(timeout()), &engine, SLOT(moveBall(Ball* ball, Paddle* p1Paddle, Paddle* p2Paddle)));
+	QObject::connect(this, SIGNAL(paddleMoved(Paddle*, bool)), &engine, SLOT(movePaddle(Paddle*, bool)));
+	QObject::connect(&engine, SIGNAL(sendWin(bool)), this, SLOT(win(bool)));
 
 	// Place and make visible all the pieces
 	this->addItem(gameArea);
@@ -50,6 +54,8 @@ void QtPong::startNew()
 	ball->setVisible(true);
 	p1Score->setVisible(true);
 	p2Score->setVisible(true);
+
+	engine.start();
 }
 
 void QtPong::setGame()
@@ -79,70 +85,17 @@ void QtPong::win(bool player)
 	setGame();
 }
 
-void QtPong::moveBall()
-{
-	int xDir = ball->getX();
-	int yDir = ball->getY();
-	int x = ball->x();
-	int y = ball->y();
-
-	// Check if ball got past a paddle
-	if(x < 2 || x > 547)
-	{
-		if(x <= 20)
-			win(1);
-		else if(x >= 540)
-			win(0);
-	}
-	// Check if ball hit top or bottom walls
-	if(y < 2 || y > 387)
-	{
-		ball->setDirection(xDir, (-1)*yDir);
-	}
-	// Check if ball hit paddles
-	if(ball->collidesWithItem(p1Paddle) || ball->collidesWithItem(p2Paddle))
-	{
-		ball->setDirection(-1*xDir, yDir);
-	}
-}
-
 void QtPong::keyPressEvent(QKeyEvent *event)
 {
 	// Check for key presses
 	if(event->key() == Qt::Key_A)
-		movePaddle(p1Paddle, false);
+		emit paddleMoved(p1Paddle, false);
 	if(event->key() == Qt::Key_S)
-		movePaddle(p1Paddle, true);
+		emit paddleMoved(p1Paddle, true);
 	if(event->key() == Qt::Key_K)
-		movePaddle(p2Paddle, false);
+		emit paddleMoved(p2Paddle, false);
 	if(event->key() == Qt::Key_L)
-		movePaddle(p2Paddle, true);
+		emit paddleMoved(p2Paddle, true);
 	if(event->key() == Qt::Key_Q)
 		exit(0);
-}
-
-void QtPong::movePaddle(Paddle *paddle, bool up)
-{
-	int max = paddle->getMaxPaddleSpeed();
-	int y = paddle->y();
-
-	// Move up
-	if(((y - max) > 1) && up) 
-	{
-		paddle->setY(y-max);
-	}
-	else if(up)
-	{
-		paddle->setY(1);
-	}
-	
-	// Move down
-	else if(((y + 50 + max) < 399) && !up) 
-	{
-		paddle->setY(y+max);
-	}
-	else
-	{
-		paddle->setY(349);
-	}
 }

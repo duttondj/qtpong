@@ -1,7 +1,5 @@
 #include "paddle.h"
 
-#include <QPainter>
-
 Paddle::Paddle(QGraphicsItem *parent) : QGraphicsRectItem(parent)
 {}
 

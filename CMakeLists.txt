@@ -20,5 +20,5 @@ set(CMAKE_INCLUDE_CURRENT_DIR ON)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR} )
 
-ADD_EXECUTABLE(qtpong ball.cpp main.cpp mainwindow.cpp paddle.cpp qtpong.cpp scoreboard.cpp ${MOCSrcs})
+ADD_EXECUTABLE(qtpong ball.cpp main.cpp mainwindow.cpp paddle.cpp qtpong.cpp scoreboard.cpp engine.cpp ${MOCSrcs})
 TARGET_LINK_LIBRARIES(qtpong Qt4::QtGui)

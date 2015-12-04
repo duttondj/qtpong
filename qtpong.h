@@ -11,6 +11,7 @@
 #include "ball.h"
 #include "paddle.h"
 #include "scoreboard.h"
+#include "engine.h"
 
 class QtPong : public QGraphicsScene
 {
@@ -19,11 +20,12 @@ public:
     QtPong(QObject *parent = 0);
     QtPong(qreal x, qreal y, qreal width, qreal height, QObject *parent = 0);
 
-private slots:
-    void moveBall();
+public slots:
+    // Call when a player wins
+    void win(bool player);
 
-//public slots:
-//     void resetBall();
+signals:
+    void paddleMoved(Paddle *paddle, bool up);
 
 protected:
     void keyPressEvent(QKeyEvent *event);
@@ -34,9 +36,6 @@ private:
     
     // Reset the ball, paddles, and timer
     void setGame();
-    
-    // Call when a player wins
-    void win(bool player);
 
     Paddle *p1Paddle, *p2Paddle;
     Ball *ball;
@@ -46,10 +45,6 @@ private:
     Scoreboard *p1Score, *p2Score;
 
     QTimer *timer;
-
-    void movePaddle(Paddle *paddle, bool up);
-
-    // void incScore(bool player);
 
     static const int widthGame = 560;
     static const int heightGame = 400;
