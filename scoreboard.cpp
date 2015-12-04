@@ -2,29 +2,22 @@
 
 Scoreboard::Scoreboard(QGraphicsItem *parent) : QGraphicsSimpleTextItem(parent)
 {
-	initScoreboard();
-}
-
-Scoreboard::Scoreboard(qreal x, qreal y, qreal width, qreal height, QGraphicsItem *parent) : QGraphicsSimpleTextItem(x, y, width, height, parent)
-{
-	initScoreboard();
-}
-
-void Scoreboard::initScoreboard()
-{
 	score = 0;
 	this->setText(QString::number(score));
 
-	QFont font("Helvetica", 12);
+	QFont font("Helvetica", 20);
 	this->setFont(font);
+	this->setBrush(QBrush(Qt::white));
 }
 
-void Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+void Scoreboard::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-	// Draw a white rectangle
-	painter->setPen(Qt::white);
-	painter->setBrush(QBrush(Qt::white));
+	// // Draw a white rectangle
+	// painter->setBrush(QBrush(QColor(255, 255, 255, 255)));
+	// painter->drawRect(0,0,12,24);
+	// //painter->drawText(50,50,this->text());
 	QGraphicsSimpleTextItem::paint(painter, option, widget);
+
 }
 
 void Scoreboard::incScore()

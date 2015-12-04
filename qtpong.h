@@ -6,6 +6,7 @@
 #include <QKeyEvent>
 #include <QGraphicsScene>
 #include <QTimer>
+#include <iostream>
 
 #include "ball.h"
 #include "paddle.h"
@@ -41,7 +42,6 @@ private:
     Ball *ball;
 
     QGraphicsRectItem *gameArea;
-    QGraphics *divider;
 
     Scoreboard *p1Score, *p2Score;
 

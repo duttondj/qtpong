@@ -1,9 +1,26 @@
 #include "ball.h"
-#include <QTime>
 
 Ball::Ball(QGraphicsItem *parent) : QGraphicsEllipseItem(parent)
 {
-	// Seed the RNG with current millisec time
+	resetBall();
+}
+
+Ball::Ball(qreal x, qreal y, qreal w, qreal h, QGraphicsItem *parent) : QGraphicsEllipseItem(x, y, w, h, parent)
+{
+	resetBall();
+}
+
+void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
+{
+	// Ball is a white circle
+	painter->setPen(Qt::white);
+	painter->setBrush(QBrush(Qt::blue));
+	painter->drawEllipse(this->rect());
+}
+
+void Ball::resetBall()
+{
+		// Seed the RNG with current millisec time
 	qsrand(QTime::currentTime().msec());
 
 	// Set x component to be between 1-4
@@ -21,32 +38,6 @@ Ball::Ball(QGraphicsItem *parent) : QGraphicsEllipseItem(parent)
 
 	// Set speed to be 1-MAXSPEED, 1 is slowest, max is fastest
 	v = (qrand() % MAXBALLSPEED) + 1;
-}
-
-Ball::Ball(qreal x, qreal y, qreal w, qreal h, QGraphicsItem *parent) : QGraphicsEllipseItem(x, y, w, h, parent)
-{
-	// Perform identical random settings for x, y, v
-	qsrand(QTime::currentTime().msec());
-
-	xDir = (qrand() % 4) + 1;
-
-	if (xDir > 2)
-		xDir -= 5;
-	
-	yDir = (qrand() % 4) + 1;
-
-	if (yDir > 2)
-		yDir -= 5;
-
-	v = (qrand() % MAXBALLSPEED) + 1;
-}
-
-void Ball::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
-{
-	// Ball is a white circle
-	painter->setPen(Qt::white);
-	painter->setBrush(QBrush(Qt::blue));
-	painter->drawEllipse(this->rect());
 }
 
 void Ball::setDirection(int newX, int newY)

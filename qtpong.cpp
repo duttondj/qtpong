@@ -1,4 +1,3 @@
-#include <iostream>
 #include "qtpong.h"
 
 QtPong::QtPong(QObject *parent) : QGraphicsScene(parent)
@@ -21,8 +20,8 @@ void QtPong::startNew()
 	p1Paddle = new Paddle(0, 0, 5, 50);
 	p2Paddle = new Paddle(0, 0, 5, 50);
 	ball = new Ball(0, 0, 10, 10);
-	p1Score = new Scoreboard(0, 0, 20, 20);
-	p2Score = new Scoreboard(0, 0, 20, 20);
+	p1Score = new Scoreboard();
+	p2Score = new Scoreboard();
 	timer = new QTimer(this);
 
 	// Black game area
@@ -59,8 +58,10 @@ void QtPong::setGame()
 	p1Paddle->setPos(0, (heightGame/2)-25);
 	p2Paddle->setPos(widthGame-5, (heightGame/2)-25);
 	ball->setPos(274, (qrand() % (heightGame-50+1)));
-	p1Score->setPos((widthGame/2)-30, 0);
-	p1Score->setPos((widthGame/2)+10, 0);
+	p1Score->setPos((widthGame/2)-40, 0);
+	p2Score->setPos((widthGame/2)+20, 0);
+
+	ball->resetBall();
 
 	// Update 60 times a second [1/(60ms) ~ 17ms]
 	timer->start(17);

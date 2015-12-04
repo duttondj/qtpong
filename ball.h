@@ -15,6 +15,9 @@ public:
     // Overloaded paint method, Color and shape settings for ball
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     
+    // Reset the ball with new xDir, yDir, and v
+    void resetBall();
+
     // Setters for direction and speed
     void setDirection(int newX, int newY);
     void setSpeed(int newV);
