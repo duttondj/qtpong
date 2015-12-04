@@ -21,6 +21,8 @@ void QtPong::startNew()
 	p1Paddle = new Paddle(0, 0, 5, 50);
 	p2Paddle = new Paddle(0, 0, 5, 50);
 	ball = new Ball(0, 0, 10, 10);
+	p1Score = new Scoreboard(0, 0, 20, 20);
+	p2Score = new Scoreboard(0, 0, 20, 20);
 	timer = new QTimer(this);
 
 	// Black game area
@@ -40,19 +42,25 @@ void QtPong::startNew()
 	this->addItem(p1Paddle);
 	this->addItem(p2Paddle);
 	this->addItem(ball);
+	this->addItem(p1Score);
+	this->addItem(p2Score);
 
 	gameArea->setVisible(true);
 	p1Paddle->setVisible(true);
 	p2Paddle->setVisible(true);
 	ball->setVisible(true);
+	p1Score->setVisible(true);
+	p2Score->setVisible(true);
 }
 
 void QtPong::setGame()
 {
 	// Set the parts to where they should be at the begining of a game
-	p1Paddle->setPos(0, (heightGame/2)-50);
-	p2Paddle->setPos(widthGame-5, (heightGame/2)-50);
+	p1Paddle->setPos(0, (heightGame/2)-25);
+	p2Paddle->setPos(widthGame-5, (heightGame/2)-25);
 	ball->setPos(274, (qrand() % (heightGame-50+1)));
+	p1Score->setPos((widthGame/2)-30, 0);
+	p1Score->setPos((widthGame/2)+10, 0);
 
 	// Update 60 times a second [1/(60ms) ~ 17ms]
 	timer->start(17);
@@ -61,7 +69,11 @@ void QtPong::setGame()
 void QtPong::win(bool player)
 {
 	// Increment score, stop timer, and then reset game
-	//incScore(player);
+	if (player)
+		p2Score->incScore();
+	else
+		p1Score->incScore();
+
 	timer->stop();
 	setGame();
 }
@@ -77,9 +89,9 @@ void QtPong::moveBall()
 	if(x < 2 || x > 547)
 	{
 		if(x <= 20)
-			win(0);
-		else if(x >= 540)
 			win(1);
+		else if(x >= 540)
+			win(0);
 	}
 	// Check if ball hit top or bottom walls
 	if(y < 2 || y > 387)

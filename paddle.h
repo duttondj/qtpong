@@ -2,6 +2,7 @@
 #define PADDLE_H
 
 #include <QGraphicsRectItem>
+#include <QPainter>
 
 class Paddle : public QGraphicsRectItem
 {

@@ -3,6 +3,7 @@
 
 #include <QGraphicsEllipseItem>
 #include <QPainter>
+#include <QTime>
 
 class Ball : public QGraphicsEllipseItem
 {
@@ -35,7 +36,7 @@ private:
 
 protected:
 	// Overloaded advance movement for ball, sets next position when called
-    // This does not keep track of out of bounds or collisions
+    // This does not keep track of out of bounds or collisions, only for speed purposes
     void advance(int phase);
 };
 

@@ -9,6 +9,7 @@
 
 #include "ball.h"
 #include "paddle.h"
+#include "scoreboard.h"
 
 class QtPong : public QGraphicsScene
 {
@@ -40,6 +41,9 @@ private:
     Ball *ball;
 
     QGraphicsRectItem *gameArea;
+    QGraphics *divider;
+
+    Scoreboard *p1Score, *p2Score;
 
     QTimer *timer;
 
