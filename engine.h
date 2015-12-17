@@ -15,7 +15,7 @@
 #include "scoreboard.h"
 
 
-class Engine : public QThread {
+class Engine : public QObject {
 	Q_OBJECT
 
 public slots:

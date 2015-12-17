@@ -13,6 +13,7 @@ QtPong::QtPong(qreal x, qreal y, qreal width, qreal height, QObject *parent) : Q
 void QtPong::startNew()
 {
 	Engine engine;
+	QThread * thread;
 
 	// Seed the RNG with current millisec time
 	qsrand(QTime::currentTime().msec());
@@ -39,6 +40,8 @@ void QtPong::startNew()
 	QObject::connect(timer, SIGNAL(timeout()), &engine, SLOT(moveBall(Ball* ball, Paddle* p1Paddle, Paddle* p2Paddle)));
 	QObject::connect(this, SIGNAL(paddleMoved(Paddle*, bool)), &engine, SLOT(movePaddle(Paddle*, bool)));
 	QObject::connect(&engine, SIGNAL(sendWin(bool)), this, SLOT(win(bool)));
+	QObject::connect(&engine, SIGNAL(finished()), &engine, SLOT(deleteLater()));
+    QObject::connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
 
 	// Place and make visible all the pieces
 	this->addItem(gameArea);
@@ -55,7 +58,7 @@ void QtPong::startNew()
 	p1Score->setVisible(true);
 	p2Score->setVisible(true);
 
-	engine.start();
+	thread->start();
 }
 
 void QtPong::setGame()
