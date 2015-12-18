@@ -19,7 +19,7 @@ public:
 
 private:
 	// Max speed of paddle, pixels per movement
-	static const int MAXPADDLESPEED = 4;
+	static const int MAXPADDLESPEED = 10;
 };
 
 #endif // PADDLE_H

@@ -1,5 +1,12 @@
 #include <engine.h>
 
+Engine::Engine(Ball * ball, Paddle * p1Paddle, Paddle * p2Paddle, QObject * parent):QObject(parent)
+{
+	this->b = ball;
+	this->p1 = p1Paddle;
+	this->p2 = p2Paddle;
+}
+
 void Engine::movePaddle(Paddle *paddle, bool up)
 {
 	int max = paddle->getMaxPaddleSpeed();
@@ -26,12 +33,12 @@ void Engine::movePaddle(Paddle *paddle, bool up)
 	}
 }
 
-void Engine::moveBall(Ball *ball, Paddle *p1Paddle, Paddle *p2Paddle)
+void Engine::moveBall()
 {
-	int xDir = ball->getX();
-	int yDir = ball->getY();
-	int x = ball->x();
-	int y = ball->y();
+	int xDir = this->b->getX();
+	int yDir = this->b->getY();
+	int x = this->b->x();
+	int y = this->b->y();
 
 	// Check if ball got past a paddle
 	if(x < 2 || x > 547)
@@ -44,11 +51,11 @@ void Engine::moveBall(Ball *ball, Paddle *p1Paddle, Paddle *p2Paddle)
 	// Check if ball hit top or bottom walls
 	if(y < 2 || y > 387)
 	{
-		ball->setDirection(xDir, (-1)*yDir);
+		this->b->setDirection(xDir, (-1)*yDir);
 	}
 	// Check if ball hit paddles
-	if(ball->collidesWithItem(p1Paddle) || ball->collidesWithItem(p2Paddle))
+	if(this->b->collidesWithItem(this->p1) || this->b->collidesWithItem(this->p2))
 	{
-		ball->setDirection(-1*xDir, yDir);
+		this->b->setDirection(-1*xDir, yDir);
 	}
 }

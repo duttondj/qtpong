@@ -5,16 +5,8 @@ QtPong::QtPong(QObject *parent) : QGraphicsScene(parent)
 	startNew();
 }
 
-QtPong::QtPong(qreal x, qreal y, qreal width, qreal height, QObject *parent) : QGraphicsScene(parent)
-{
-	startNew();
-}
-
 void QtPong::startNew()
 {
-	Engine engine;
-	QThread * thread;
-
 	// Seed the RNG with current millisec time
 	qsrand(QTime::currentTime().msec());
 
@@ -32,16 +24,20 @@ void QtPong::startNew()
 	gameArea->setBrush(Qt::black);
 	gameArea->setRect(0,0,widthGame, heightGame);
 
+	Engine * engine = new Engine(ball, p1Paddle, p2Paddle);
+	QThread * thread = new QThread;
+
+	engine->moveToThread(thread);
+
 	// Reset placement of parts
 	setGame();
 
 	// Connect the timer to the advance and moveBall functions
 	QObject::connect(timer, SIGNAL(timeout()), this, SLOT(advance()));
-	QObject::connect(timer, SIGNAL(timeout()), &engine, SLOT(moveBall(Ball* ball, Paddle* p1Paddle, Paddle* p2Paddle)));
-	QObject::connect(this, SIGNAL(paddleMoved(Paddle*, bool)), &engine, SLOT(movePaddle(Paddle*, bool)));
-	QObject::connect(&engine, SIGNAL(sendWin(bool)), this, SLOT(win(bool)));
-	QObject::connect(&engine, SIGNAL(finished()), &engine, SLOT(deleteLater()));
-    QObject::connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
+	QObject::connect(timer, SIGNAL(timeout()), engine, SLOT(moveBall()));
+	QObject::connect(this, SIGNAL(paddleMoved(Paddle*, bool)), engine, SLOT(movePaddle(Paddle*, bool)));
+	QObject::connect(engine, SIGNAL(sendWin(bool)), this, SLOT(win(bool)));
+	QObject::connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
 
 	// Place and make visible all the pieces
 	this->addItem(gameArea);
@@ -72,8 +68,9 @@ void QtPong::setGame()
 
 	ball->resetBall();
 
-	// Update 60 times a second [1/(60ms) ~ 17ms]
-	timer->start(17);
+	// Run the 3 sec start timer
+	startTimer->singleShot(3000, timer, SLOT(start()));
+	timer->setInterval(17);
 }
 
 void QtPong::win(bool player)
@@ -91,14 +88,21 @@ void QtPong::win(bool player)
 void QtPong::keyPressEvent(QKeyEvent *event)
 {
 	// Check for key presses
-	if(event->key() == Qt::Key_A)
+	if(event->isAutoRepeat())
+	{
+		event->ignore();
+	}
+	
+	else if(event->key() == Qt::Key_A)
 		emit paddleMoved(p1Paddle, false);
-	if(event->key() == Qt::Key_S)
+	else if(event->key() == Qt::Key_S)
 		emit paddleMoved(p1Paddle, true);
-	if(event->key() == Qt::Key_K)
+	else if(event->key() == Qt::Key_K)
 		emit paddleMoved(p2Paddle, false);
-	if(event->key() == Qt::Key_L)
+	else if(event->key() == Qt::Key_L)
 		emit paddleMoved(p2Paddle, true);
-	if(event->key() == Qt::Key_Q)
+	else if(event->key() == Qt::Key_Q)
 		exit(0);
+	else
+		event->ignore();
 }

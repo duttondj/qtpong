@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QTime>
 #include <QKeyEvent>
+#include <QEvent>
 #include <QGraphicsScene>
 #include <QTimer>
 #include <iostream>
@@ -18,7 +19,6 @@ class QtPong : public QGraphicsScene
     Q_OBJECT
 public:
     QtPong(QObject *parent = 0);
-    QtPong(qreal x, qreal y, qreal width, qreal height, QObject *parent = 0);
 
 public slots:
     // Call when a player wins
@@ -45,6 +45,7 @@ private:
     Scoreboard *p1Score, *p2Score;
 
     QTimer *timer;
+    QTimer *startTimer;
 
     static const int widthGame = 560;
     static const int heightGame = 400;
