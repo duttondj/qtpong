@@ -32,7 +32,7 @@ void QtPong::startNew()
 	// Reset placement of parts
 	setGame();
 
-	// Connect the timer to the advance and moveBall functions
+	// Connect the timer to the advance and the timer to the engine's moveBall/Paddle functions
 	QObject::connect(timer, SIGNAL(timeout()), this, SLOT(advance()));
 	QObject::connect(timer, SIGNAL(timeout()), engine, SLOT(moveBall()));
 	QObject::connect(this, SIGNAL(paddleMoved(Paddle*, bool)), engine, SLOT(movePaddle(Paddle*, bool)));

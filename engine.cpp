@@ -1,5 +1,6 @@
 #include <engine.h>
 
+// Get the ball and paddles so we can manipulate them
 Engine::Engine(Ball * ball, Paddle * p1Paddle, Paddle * p2Paddle, QObject * parent):QObject(parent)
 {
 	this->b = ball;
@@ -7,6 +8,7 @@ Engine::Engine(Ball * ball, Paddle * p1Paddle, Paddle * p2Paddle, QObject * pare
 	this->p2 = p2Paddle;
 }
 
+// Move a paddle based on collision detection
 void Engine::movePaddle(Paddle *paddle, bool up)
 {
 	int max = paddle->getMaxPaddleSpeed();
@@ -33,6 +35,7 @@ void Engine::movePaddle(Paddle *paddle, bool up)
 	}
 }
 
+// Move the ball based on collision detection
 void Engine::moveBall()
 {
 	int xDir = this->b->getX();
